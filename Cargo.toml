@@ -12,3 +12,4 @@ keywords = ["math", "add", "numbers"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+fastrand = "1.8.0"
