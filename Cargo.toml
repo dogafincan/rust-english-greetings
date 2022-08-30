@@ -1,13 +1,13 @@
 [package]
-name = "doga-add-numbers"
+name = "doga-english-greetings"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "An add numbers package written for educational purposes."
+description = "A random english greetings package written for educational purposes."
 homepage = "https://github.com/dogafincan"
-repository = "https://github.com/dogafincan/rust-add-numbers-library/"
+repository = "https://github.com/dogafincan/rust-english-greetings/"
 readme = "README.md"
-keywords = ["math", "add", "numbers"]
+keywords = ["random", "string"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

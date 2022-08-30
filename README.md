@@ -1,2 +1,2 @@
 # rust-add-library
-A library for adding numbers.
+A library that returns a random greeting in English.
