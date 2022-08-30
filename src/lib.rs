@@ -1,4 +1,18 @@
-pub fn random_greeting(name: &str) -> String {
+use thiserror::Error;
+
+#[derive(Error, Debug, PartialEq)]
+pub enum NameError {
+    #[error("name cannot be an empty string")]
+    EmptyName,
+    #[error("no names found")]
+    NoNames
+}
+
+pub fn random_greeting(name: &str) -> Result<String, NameError> {
+    if name.is_empty() {
+        return Err(NameError::EmptyName);
+    }
+
     let greetings = [
         format!("Hi, {}. Welcome!", name),
         format!("Great to see you, {}!", name),
@@ -7,20 +21,26 @@ pub fn random_greeting(name: &str) -> String {
 
     let random_index = fastrand::usize(0..3);
 
-    greetings
+    Ok(greetings
         .into_iter()
         .nth(random_index)
-        .expect("Missing element")
+        .expect("element in greetings not found"))
 }
 
-pub fn random_greetings(names: &[&str]) -> Vec<String> {
+pub fn random_greetings(names: &[&str]) -> Result<Vec<String>, NameError> {
+    if names.is_empty() {
+        return Err(NameError::NoNames);
+    }
     let mut greetings = Vec::new();
 
     for name in names.iter() {
-        greetings.push(random_greeting(name));
+        match random_greeting(name) {
+            Ok(greeting) => greetings.push(greeting),
+            Err(err) => return Err(err),
+        };
     }
 
-    greetings
+    Ok(greetings)
 }
 
 #[cfg(test)]
@@ -30,18 +50,19 @@ mod tests {
     #[test]
     fn it_returns_random_greeting() {
         fastrand::seed(1);
-        let result = random_greeting("Doga");
-        assert_eq!(result, "Hail, Doga! Well met!");
+        let result = random_greeting("").unwrap_err();
+
+        assert_eq!(result, NameError::EmptyName);
     }
 
     #[test]
     fn it_returns_random_greetings() {
         fastrand::seed(1);
-        let result = random_greetings(&["Doga", "Ji-yoon"]);
+        let result = random_greetings(&["Doga", "Ji-yoon"]).unwrap();
 
         assert_eq!(
             result,
-            ["Hail, Doga! Well met!", "Great to see you, Ji-yoon!"]
+            vec!["Hail, Doga! Well met!", "Great to see you, Ji-yoon!"]
         );
     }
 }
