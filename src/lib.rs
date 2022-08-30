@@ -5,7 +5,7 @@ pub enum NameError {
     #[error("name cannot be an empty string")]
     EmptyName,
     #[error("no names found")]
-    NoNames
+    NoNames,
 }
 
 pub fn random_greeting(name: &str) -> Result<String, NameError> {
@@ -48,21 +48,38 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_returns_random_greeting() {
+    fn test_random_greeting() {
         fastrand::seed(1);
-        let result = random_greeting("").unwrap_err();
+        let result = random_greeting("Doga").unwrap();
+        assert_eq!(result, "Hail, Doga! Well met!");
+    }
 
+    #[test]
+    fn test_random_greeting_empty_string() {
+        let result = random_greeting("").unwrap_err();
         assert_eq!(result, NameError::EmptyName);
     }
 
     #[test]
-    fn it_returns_random_greetings() {
+    fn test_random_greetings() {
         fastrand::seed(1);
-        let result = random_greetings(&["Doga", "Ji-yoon"]).unwrap();
+        let result = random_greetings(&["Ji-an", "Hiroto", "Somchai"]).unwrap();
 
         assert_eq!(
             result,
-            vec!["Hail, Doga! Well met!", "Great to see you, Ji-yoon!"]
+            vec!["Hail, Ji-an! Well met!", "Great to see you, Hiroto!", "Great to see you, Somchai!"]
         );
+    }
+
+    #[test]
+    fn test_random_greetings_empty_array() {
+        let result = random_greetings(&[]).unwrap_err();
+        assert_eq!(result, NameError::NoNames);
+    }
+
+    #[test]
+    fn test_random_greetings_empty_string() {
+        let result = random_greetings(&[""]).unwrap_err();
+        assert_eq!(result, NameError::EmptyName);
     }
 }
