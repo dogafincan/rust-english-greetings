@@ -34,10 +34,8 @@ pub fn random_greetings(names: &[&str]) -> Result<Vec<String>, NameError> {
     let mut greetings = Vec::new();
 
     for name in names.iter() {
-        match random_greeting(name) {
-            Ok(greeting) => greetings.push(greeting),
-            Err(err) => return Err(err),
-        };
+        let greeting = random_greeting(name)?;
+        greetings.push(greeting);
     }
 
     Ok(greetings)
