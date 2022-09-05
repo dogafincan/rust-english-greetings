@@ -14,9 +14,9 @@ pub fn random_greeting(name: &str) -> Result<String, NameError> {
     }
 
     let greetings = [
-        format!("Hi, {}. Welcome!", name),
-        format!("Great to see you, {}!", name),
-        format!("Hail, {}! Well met!", name),
+        format!("Hi, {name}. Welcome!"),
+        format!("Great to see you, {name}!"),
+        format!("Hail, {name}! Well met!"),
     ];
 
     let random_index = fastrand::usize(0..3);
