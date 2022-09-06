@@ -2,15 +2,15 @@ use thiserror::Error;
 
 #[derive(Error, Debug, PartialEq)]
 pub enum NameError {
-    #[error("name cannot be an empty string")]
-    EmptyName,
-    #[error("no names found")]
-    NoNames,
+    #[error("expected a non-empty string")]
+    EmptyNameArgument,
+    #[error("expected at least one name")]
+    EmptyNamesArgument,
 }
 
 pub fn random_greeting(name: &str) -> Result<String, NameError> {
     if name.is_empty() {
-        return Err(NameError::EmptyName);
+        return Err(NameError::EmptyNameArgument);
     }
 
     let greetings = [
@@ -29,7 +29,7 @@ pub fn random_greeting(name: &str) -> Result<String, NameError> {
 
 pub fn random_greetings(names: &[&str]) -> Result<Vec<String>, NameError> {
     if names.is_empty() {
-        return Err(NameError::NoNames);
+        return Err(NameError::EmptyNamesArgument);
     }
     let mut greetings = Vec::new();
 
@@ -55,7 +55,7 @@ mod tests {
     #[test]
     fn test_random_greeting_empty_string() {
         let result = random_greeting("").unwrap_err();
-        assert_eq!(result, NameError::EmptyName);
+        assert_eq!(result, NameError::EmptyNameArgument);
     }
 
     #[test]
@@ -72,12 +72,12 @@ mod tests {
     #[test]
     fn test_random_greetings_empty_array() {
         let result = random_greetings(&[]).unwrap_err();
-        assert_eq!(result, NameError::NoNames);
+        assert_eq!(result, NameError::EmptyNamesArgument);
     }
 
     #[test]
     fn test_random_greetings_empty_string() {
         let result = random_greetings(&[""]).unwrap_err();
-        assert_eq!(result, NameError::EmptyName);
+        assert_eq!(result, NameError::EmptyNameArgument);
     }
 }
