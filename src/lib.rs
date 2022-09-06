@@ -31,6 +31,7 @@ pub fn random_greetings(names: &[&str]) -> Result<Vec<String>, NameError> {
     if names.is_empty() {
         return Err(NameError::EmptyNamesArgument);
     }
+
     let mut greetings = Vec::new();
 
     for name in names.iter() {
@@ -65,7 +66,11 @@ mod tests {
 
         assert_eq!(
             result,
-            vec!["Hail, Ji-an! Well met!", "Great to see you, Hiroto!", "Great to see you, Somchai!"]
+            vec![
+                "Hail, Ji-an! Well met!",
+                "Great to see you, Hiroto!",
+                "Great to see you, Somchai!"
+            ]
         );
     }
 
