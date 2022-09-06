@@ -19,7 +19,7 @@ pub fn random_greeting(name: &str) -> Result<String, NameError> {
         format!("Hail, {name}! Well met!"),
     ];
 
-    let random_index = fastrand::usize(0..3);
+    let random_index = fastrand::usize(0..greetings.len());
 
     Ok(greetings
         .into_iter()
